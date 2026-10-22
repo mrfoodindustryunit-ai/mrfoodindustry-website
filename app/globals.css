@@ -1,0 +1,160 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --paper: #f1efe6;
+  --paper-light: #f8f6ef;
+  --sage: #e8eadf;
+  --ink: #102c23;
+  --forest: #0d4332;
+  --forest-bright: #115a40;
+  --gold: #d9a62e;
+  --gold-soft: #e9c25a;
+  --gold-deep: #b57f1f;
+  --muted-ink: #5d6b62;
+  --line: #d8d6cb;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-light);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-light);
+  --popover-foreground: var(--ink);
+  --primary: var(--forest);
+  --primary-foreground: var(--paper-light);
+  --secondary: var(--sage);
+  --secondary-foreground: var(--ink);
+  --muted: var(--sage);
+  --muted-foreground: var(--muted-ink);
+  --accent: var(--gold);
+  --accent-foreground: var(--ink);
+  --destructive: #b3261e;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--gold-deep);
+  --radius: 1rem;
+}
+
+@theme inline {
+  --font-sans: 'Trebuchet MS', var(--font-fira), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: Georgia, var(--font-gelasio), 'Times New Roman', serif;
+
+  --color-paper: var(--paper);
+  --color-paper-light: var(--paper-light);
+  --color-sage: var(--sage);
+  --color-ink: var(--ink);
+  --color-forest: var(--forest);
+  --color-forest-bright: var(--forest-bright);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-deep: var(--gold-deep);
+  --color-muted-ink: var(--muted-ink);
+  --color-line: var(--line);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --animate-marquee: marquee 38s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  ::selection {
+    background: var(--gold-soft);
+    color: var(--ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--gold-deep);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  /* Signature "leaf" shapes from the reference: soft corners with one dramatic sweep. */
+  .shape-leaf {
+    border-radius: 32px 32px 110px 32px;
+  }
+  .shape-leaf-sm {
+    border-radius: 24px 24px 72px 24px;
+  }
+  .shape-leaf-alt {
+    border-radius: 110px 32px 32px 32px;
+  }
+  .shape-arch {
+    border-radius: 120px 120px 32px 32px;
+  }
+  .shape-panel {
+    border-radius: 48px 48px 120px 48px;
+  }
+  .shape-cta {
+    border-radius: 2px 999px 999px 2px;
+  }
+  .headline {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.95;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .dot-grid {
+    background-image: radial-gradient(rgb(255 255 255 / 0.14) 1px, transparent 1px);
+    background-size: 76px 76px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
