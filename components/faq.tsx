@@ -1,20 +1,22 @@
 'use client'
 
 import { useId, useState } from 'react'
-import { faqs } from '@/lib/content'
+import { useTranslation } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import { SectionIntro } from './section-intro'
 
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0)
+  const { t, data } = useTranslation()
   const baseId = useId()
+  const faqs = data('faq.questions') as Array<{ q: string; a: string }>
 
   return (
     <section aria-labelledby="faq-title" className="bg-paper py-24 sm:py-32">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8">
         <SectionIntro
-          label="Frequently asked"
-          title={<span id="faq-title">Clear answers before the next conversation.</span>}
+          label={t('faq.label')}
+          title={<span id="faq-title">{t('faq.title')}</span>}
         />
         <div className="mt-16 border-t border-line sm:mt-24">
           {faqs.map((faq, index) => {

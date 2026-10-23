@@ -1,7 +1,9 @@
+'use client'
+
 import Image from 'next/image'
 import { TextArrowLink } from '@/components/arrow-link'
 import { Reveal } from '@/components/reveal'
-import { supportRoutes } from '@/lib/content'
+import { useTranslation } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
 const shapes = [
@@ -12,6 +14,9 @@ const shapes = [
 ]
 
 export function SupportRoutes() {
+  const { data } = useTranslation()
+  const supportRoutes = (data('supportRoutes.routes') as Array<any>) || []
+
   return (
     <ul className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
       {supportRoutes.map((route, index) => (

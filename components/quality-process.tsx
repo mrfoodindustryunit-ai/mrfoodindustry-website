@@ -1,6 +1,11 @@
-import { qualitySteps } from '@/lib/content'
+'use client'
+
+import { useTranslation } from '@/lib/i18n'
 
 export function QualityProcess() {
+  const { data } = useTranslation()
+  const qualitySteps = data('quality.steps') as Array<{ step: string; title: string; text: string }>
+
   return (
     <div className="dot-grid relative overflow-hidden rounded-[40px_40px_100px_40px] bg-gradient-to-br from-forest via-[#0f3a2c] to-ink p-5 sm:p-12 lg:rounded-[56px_56px_150px_56px]">
       <div

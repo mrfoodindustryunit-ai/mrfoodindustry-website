@@ -1,24 +1,19 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { ContactCta } from '@/components/contact-cta'
-import { PageHero } from '@/components/page-hero'
 import { ProductCatalogue } from '@/components/product-catalogue'
+import { ProductsPageHero } from '@/components/products-page-hero'
 
 export const metadata: Metadata = {
   title: 'Products',
   description:
-    'Browse the MR Industries feed range: Broiler Pre-Starter, Broiler Starter, Broiler Finisher, Layer Feed, Layer Concentrate and Goat & Sheep Feed.',
+    'Browse cattle feed for cows first, followed by poultry, layer, and goat and sheep feed from MR Industries.',
 }
 
 export default function ProductsPage() {
   return (
     <>
-      <PageHero
-        label="Product catalogue"
-        title="The MR Industries"
-        accent="feed range."
-        description="Search or filter six feed categories across broiler, layer, and goat and sheep farming. Product information and availability are shared on enquiry."
-      />
+      <ProductsPageHero />
       <section aria-label="Product catalogue" className="bg-paper pb-24 sm:pb-32">
         <div className="mx-auto max-w-[1440px] px-5 sm:px-8">
           <Suspense fallback={<div className="h-96" />}>

@@ -1,28 +1,33 @@
+'use client'
+
 import Image from 'next/image'
 import { ArrowLink } from '@/components/arrow-link'
 import { Reveal } from '@/components/reveal'
 import { SectionIntro } from '@/components/section-intro'
-import { feedPathway, pathwayOutcomes } from '@/lib/content'
+import { useTranslation } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
 const offsets = ['lg:mt-0', 'lg:mt-20', 'lg:mt-10', 'lg:mt-20', 'lg:mt-0']
 
 export function FeedPathway({ showCta = true }: { showCta?: boolean }) {
+  const { data, t } = useTranslation()
+  const feedPathway = data('feedPathway.tile') as Array<{ code: string; step: string; title: string; text: string; highlight?: boolean }>
+  const pathwayOutcomes = data('feedPathway.outcomes') as Array<{ label: string; title: string; text: string }>
   return (
     <section aria-labelledby="pathway-title" className="relative overflow-hidden bg-sage py-24 sm:py-32">
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-6 select-none whitespace-nowrap text-center font-sans text-[16vw] font-bold uppercase leading-none tracking-[-0.04em] text-ink/[0.035]"
       >
-        Nutrition
+        {t('feedPathway.watermark')}
       </span>
       <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8">
         <Reveal>
           <SectionIntro
-            label="The feed pathway"
-            title={<span id="pathway-title">Five considerations.</span>}
-            accent="One connected choice."
-            description="Good feeding decisions are rarely made in one moment. They connect what goes into the feed, what the animal needs, and how the feed is used on the farm."
+            label={t('feedPathway.label')}
+            title={<span id="pathway-title">{t('feedPathway.title')}</span>}
+            accent={t('feedPathway.accent')}
+            description={t('feedPathway.description')}
           />
         </Reveal>
 
@@ -68,7 +73,7 @@ export function FeedPathway({ showCta = true }: { showCta?: boolean }) {
                       item.highlight ? 'text-ink/70' : 'text-gold-soft/90',
                     )}
                   >
-                    {`Stage ${item.step}`}
+                    {t('feedPathway.stage', { step: item.step })}
                   </span>
                   <h3 className="headline mt-auto pt-8 text-3xl">{item.title}</h3>
                   <p className={cn('mt-3 text-sm leading-relaxed', item.highlight ? 'text-ink/75' : 'text-paper/70')}>
@@ -92,10 +97,9 @@ export function FeedPathway({ showCta = true }: { showCta?: boolean }) {
 
         <div className="mt-12 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-xl text-sm leading-relaxed text-muted-ink">
-            This is a general educational framework for thinking about feed — not a description of verified MR Industries
-            production processes.
+            {t('feedPathway.educationalNote')}
           </p>
-          {showCta ? <ArrowLink href="/products">Find the right feed</ArrowLink> : null}
+          {showCta ? <ArrowLink href="/products">{t('feedPathway.cta')}</ArrowLink> : null}
         </div>
       </div>
     </section>

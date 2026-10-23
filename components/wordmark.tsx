@@ -1,12 +1,16 @@
+'use client'
+
 import Link from 'next/link'
+import { useTranslation } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
 export function Wordmark({ tone = 'dark', size = 'md' }: { tone?: 'dark' | 'light'; size?: 'md' | 'lg' }) {
+  const { t } = useTranslation()
   const large = size === 'lg'
   return (
     <Link
       href="/"
-      aria-label="MR Industries home"
+      aria-label={t('nav.home')}
       className="group inline-flex items-center gap-3"
     >
       <span

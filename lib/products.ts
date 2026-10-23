@@ -1,4 +1,4 @@
-export type ProductCategory = 'broiler' | 'layer' | 'goat-sheep'
+export type ProductCategory = 'cattle' | 'broiler' | 'layer' | 'goat-sheep'
 
 export type Product = {
   slug: string
@@ -11,16 +11,40 @@ export type Product = {
   considerations: string[]
   image: string
   imageAlt: string
+  featured?: boolean
+  searchTerms?: string[]
 }
 
 export const categories: { id: ProductCategory | 'all'; label: string }[] = [
   { id: 'all', label: 'All feeds' },
-  { id: 'broiler', label: 'Broiler' },
-  { id: 'layer', label: 'Layer' },
-  { id: 'goat-sheep', label: 'Goat & Sheep' },
+  { id: 'cattle', label: 'Cattle Feed / Cow Feed' },
+  { id: 'broiler', label: 'Poultry Feed' },
+  { id: 'layer', label: 'Layer Feed' },
+  { id: 'goat-sheep', label: 'Goat & Sheep Feed' },
 ]
 
 export const products: Product[] = [
+  {
+    slug: 'cattle-feed',
+    name: 'Cattle Feed',
+    category: 'cattle',
+    animal: 'Cattle · Cow',
+    stage: 'Cattle feed',
+    summary: 'Nutritious feed solutions for cattle, including cows, designed around their feeding and nutritional needs.',
+    overview: [
+      'MR Industries offers a cattle-feed category for farms looking for feed solutions for cattle, including cows.',
+      'Contact MR Industries for current product information and availability. Specific feeding guidance should be confirmed directly with the company.',
+    ],
+    considerations: [
+      'For cattle, including cows',
+      'Product information available on enquiry',
+      'Ask MR Industries about current availability',
+    ],
+    image: '/images/products/cattle-feed.jpg',
+    imageAlt: 'Healthy dairy cattle in a farm pasture',
+    featured: true,
+    searchTerms: ['cattle', 'cow', 'cows', 'cattle feed', 'cow feed', 'ಜಾನುವಾರುಗಳ ಆಹಾರ', 'ಹಸುಗಳ ಆಹಾರ'],
+  },
   {
     slug: 'broiler-pre-starter',
     name: 'Broiler Pre-Starter',

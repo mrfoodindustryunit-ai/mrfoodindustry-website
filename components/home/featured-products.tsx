@@ -1,19 +1,23 @@
+'use client'
+
 import { ArrowLink } from '@/components/arrow-link'
 import { ProductCard } from '@/components/product-card'
 import { Reveal } from '@/components/reveal'
 import { SectionIntro } from '@/components/section-intro'
+import { useTranslation } from '@/lib/i18n'
 import { products } from '@/lib/products'
 
 export function FeaturedProducts() {
+  const { t } = useTranslation()
   return (
     <section aria-labelledby="products-title" className="bg-paper py-24 sm:py-32">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8">
         <Reveal>
           <SectionIntro
-            label="The MR Industries range"
-            title={<span id="products-title">Feed solutions</span>}
-            accent="for every need."
-            description="Six feed categories across broiler, layer, and goat and sheep farming — each with its own product page and a direct enquiry route."
+            label={t('home.rangeLabel')}
+            title={<span id="products-title">{t('home.rangeTitle')}</span>}
+            accent={t('home.rangeAccent')}
+            description={t('home.rangeDescription')}
           />
         </Reveal>
 
@@ -28,7 +32,7 @@ export function FeaturedProducts() {
         </ul>
 
         <div className="mt-14 flex justify-end">
-          <ArrowLink href="/products">View all products</ArrowLink>
+          <ArrowLink href="/products">{t('common.viewAllProducts')}</ArrowLink>
         </div>
       </div>
     </section>

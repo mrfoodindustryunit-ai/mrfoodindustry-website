@@ -69,8 +69,8 @@ export const supportRoutes = [
     label: 'Category / 02',
     code: 'FC',
     title: 'Feed-category enquiries',
-    text: 'Broiler, layer or goat and sheep — find the range that fits your farm.',
-    points: ['Broiler range', 'Layer range', 'Goat & sheep feed'],
+    text: 'Start with cattle feed for cows, then explore poultry, layer, or goat and sheep feed for your farm.',
+    points: ['Cattle feed', 'Poultry feed', 'Layer feed', 'Goat & sheep feed'],
     href: '/products',
     cta: 'Browse categories',
     featured: true,
@@ -98,7 +98,7 @@ export const supportRoutes = [
 export const faqs = [
   {
     q: 'What types of animal feed does MR Industries offer?',
-    a: 'MR Industries offers six feed categories: Broiler Pre-Starter, Broiler Starter, Broiler Finisher, Layer Feed, Layer Concentrate, and Goat & Sheep Feed.',
+    a: 'Cattle feed for cows is the main product, alongside poultry feed, layer feed, and goat and sheep feed. Contact MR Industries for current product details.',
   },
   {
     q: 'What is the difference between the available broiler feed categories?',

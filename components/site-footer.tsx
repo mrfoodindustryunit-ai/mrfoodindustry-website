@@ -1,38 +1,58 @@
+'use client'
+
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { useTranslation } from '@/lib/i18n'
 import { products } from '@/lib/products'
 import { hasEmail, hasPhone, hasWhatsApp, siteConfig } from '@/lib/site-config'
+import { productCopyKey } from './product-copy'
 import { Wordmark } from './wordmark'
-
-const columns = [
-  {
-    title: 'Poultry feed',
-    links: products
-      .filter((product) => product.category !== 'goat-sheep')
-      .map((product) => ({ label: product.name, href: `/products/${product.slug}` })),
-  },
-  {
-    title: 'Livestock feed',
-    links: [{ label: 'Goat & Sheep Feed', href: '/products/goat-sheep-feed' }],
-    secondTitle: 'Company',
-    secondLinks: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Quality & Nutrition', href: '/quality-nutrition' },
-    ],
-  },
-  {
-    title: 'Useful links',
-    links: [
-      { label: 'All Products', href: '/products' },
-      { label: 'Farmer Support', href: '/farmer-support' },
-      { label: 'Dealer Partnership', href: '/dealer-partnership' },
-      { label: 'Contact', href: '/contact' },
-    ],
-  },
-]
 
 export function SiteFooter() {
   const { contact, social } = siteConfig
+  const { t, locale } = useTranslation()
+
+  const columns = [
+    {
+      title: t('footer.livestockFeed'),
+      links: products
+        .filter((product) => product.category === 'goat-sheep' || product.category === 'cattle')
+        .map((product) => ({
+          label: product.slug === 'cattle-feed'
+            ? t('cattle.name')
+            : locale === 'kn' && productCopyKey(product.slug, 'name')
+              ? t(productCopyKey(product.slug, 'name')!)
+              : product.name,
+          href: `/products/${product.slug}`,
+        })),
+      secondTitle: t('footer.company'),
+      secondLinks: [
+        { label: t('nav.about'), href: '/about' },
+        { label: t('nav.quality'), href: '/quality-nutrition' },
+      ],
+    },
+    {
+      title: t('footer.poultryFeed'),
+      links: products
+        .filter((product) => product.category !== 'goat-sheep' && product.category !== 'cattle')
+        .map((product) => ({
+          label: locale === 'kn' && productCopyKey(product.slug, 'name')
+            ? t(productCopyKey(product.slug, 'name')!)
+            : product.name,
+          href: `/products/${product.slug}`,
+        })),
+    },
+    {
+      title: t('footer.usefulLinks'),
+      links: [
+        { label: t('nav.allProducts'), href: '/products' },
+        { label: t('nav.support'), href: '/farmer-support' },
+        { label: t('nav.dealer'), href: '/dealer-partnership' },
+        { label: t('nav.contact'), href: '/contact' },
+      ],
+    },
+  ]
+
   return (
     <footer className="relative overflow-hidden bg-ink text-paper">
       <div className="mx-auto max-w-[1440px] px-5 pt-20 sm:px-8">
@@ -40,18 +60,18 @@ export function SiteFooter() {
           <div className="lg:col-span-5">
             <Wordmark tone="light" size="lg" />
             <p className="mt-8 max-w-md text-[15px] leading-relaxed text-paper/65">
-              {siteConfig.description}
+              {t('about.description')}
             </p>
             <dl className="mt-8 grid gap-3 text-sm">
               {contact.address ? (
                 <div className="grid grid-cols-[7rem_1fr] gap-4">
-                  <dt className="font-bold text-gold-soft">Address</dt>
+                  <dt className="font-bold text-gold-soft">{t('footer.address')}</dt>
                   <dd className="text-paper/70">{contact.address}</dd>
                 </div>
               ) : null}
               {hasEmail ? (
                 <div className="grid grid-cols-[7rem_1fr] gap-4">
-                  <dt className="font-bold text-gold-soft">Email</dt>
+                  <dt className="font-bold text-gold-soft">{t('footer.email')}</dt>
                   <dd>
                     <a href={`mailto:${contact.email}`} className="hover:text-gold-soft">
                       {contact.email}
@@ -61,7 +81,7 @@ export function SiteFooter() {
               ) : null}
               {hasPhone ? (
                 <div className="grid grid-cols-[7rem_1fr] gap-4">
-                  <dt className="font-bold text-gold-soft">Phone</dt>
+                  <dt className="font-bold text-gold-soft">{t('footer.phone')}</dt>
                   <dd>
                     <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="hover:text-gold-soft">
                       {contact.phone}
@@ -71,7 +91,7 @@ export function SiteFooter() {
               ) : null}
               {hasWhatsApp ? (
                 <div className="grid grid-cols-[7rem_1fr] gap-4">
-                  <dt className="font-bold text-gold-soft">WhatsApp</dt>
+                  <dt className="font-bold text-gold-soft">{t('footer.whatsapp')}</dt>
                   <dd>
                     <a
                       href={`https://wa.me/${contact.whatsapp}`}
@@ -89,7 +109,7 @@ export function SiteFooter() {
               href="/contact"
               className="eyebrow mt-8 inline-flex items-center gap-2 font-bold text-gold-soft hover:underline hover:underline-offset-4"
             >
-              Send an enquiry <ArrowUpRight aria-hidden="true" className="size-3.5" />
+              {t('footer.sendEnquiry')} <ArrowUpRight aria-hidden="true" className="size-3.5" />
             </Link>
           </div>
 
@@ -124,7 +144,7 @@ export function SiteFooter() {
             ))}
             {social.length > 0 ? (
               <div>
-                <h2 className="text-[10px] uppercase tracking-[0.2em] text-paper/45">Connect</h2>
+                <h2 className="text-[10px] uppercase tracking-[0.2em] text-paper/45">{t('footer.connect')}</h2>
                 <ul className="mt-5 grid gap-3">
                   {social.map((item) => (
                     <li key={item.href}>
@@ -140,10 +160,10 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-20 flex flex-col gap-4 border-t border-paper/15 py-6 text-[10px] uppercase tracking-[0.18em] text-paper/60 sm:flex-row sm:items-center sm:justify-between">
-          <p>{`© ${new Date().getFullYear()} MR Industries`}</p>
-          <p>Better nutrition. Stronger farms.</p>
+          <p>{t('footer.copyright', { year: String(new Date().getFullYear()) })}</p>
+          <p>{t('footer.tagline')}</p>
           <a href="#top" className="hover:text-gold-soft">
-            {'Back to top ↑'}
+            {t('footer.backToTop')}
           </a>
         </div>
       </div>

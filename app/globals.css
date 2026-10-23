@@ -96,6 +96,9 @@
   html {
     scroll-behavior: smooth;
   }
+  html[data-locale='kn'] {
+    font-family: var(--font-kannada), 'Noto Sans Kannada', sans-serif;
+  }
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
@@ -134,6 +137,13 @@
     font-weight: 400;
     letter-spacing: -0.06em;
     line-height: 0.95;
+  }
+  html[data-locale='kn'] .headline,
+  html[data-locale='kn'] :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-kannada);
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.25;
   }
   .eyebrow {
     font-size: 11px;

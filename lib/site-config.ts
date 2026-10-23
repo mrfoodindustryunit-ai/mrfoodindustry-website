@@ -8,7 +8,7 @@ export const siteConfig = {
   shortName: 'MR',
   tagline: 'Better Nutrition. Healthier Animals. Stronger Farms.',
   description:
-    'Quality-focused animal feed solutions for poultry, layer birds, goats and sheep, designed around nutritional needs and practical farming requirements.',
+    'Cattle feed for cows leads the MR Industries range, alongside feed for poultry, layer birds, goats and sheep.',
   contact: {
     email: '',
     phone: '',

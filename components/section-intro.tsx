@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 
 type SectionIntroProps = {
-  label: string
+  label: React.ReactNode
   title: React.ReactNode
   accent?: React.ReactNode
   description?: React.ReactNode
@@ -31,7 +31,9 @@ export function SectionIntro({
   const t = tones[tone]
   return (
     <div className={cn('grid gap-6 lg:grid-cols-3 lg:gap-8', className)}>
-      <p className={cn('eyebrow pt-3', t.label)}>{`// ${label}`}</p>
+      <p className={cn('eyebrow pt-3', t.label)}>
+        {'// '}{label}
+      </p>
       <div className="lg:col-span-2">
         <Heading className={cn('headline text-balance text-[2.75rem] sm:text-6xl lg:text-[5.4rem]', t.title)}>
           {title}
