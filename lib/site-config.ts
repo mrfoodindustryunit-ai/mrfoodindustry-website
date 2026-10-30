@@ -11,9 +11,9 @@ export const siteConfig = {
     'Cattle feed for cows leads the MR Industries range, alongside feed for poultry, layer birds, goats and sheep.',
   contact: {
     email: '',
-    phone: '',
+    phone: '+91 70220 32264',
     /** International format without "+" or spaces, e.g. 919876543210 */
-    whatsapp: '',
+    whatsapp: '917022032264',
     address: 'M R FOOD INDUSTRY UNIT\n\nNo. 51, Ground Floor,\nKarnataka Rice Mill,\nMayasandra Road, Opp. T V S Showroom,\nTuruvekere, Tumakuru District,\nKarnataka - 572227, India.',
   },
   social: [] as { label: string; href: string }[],

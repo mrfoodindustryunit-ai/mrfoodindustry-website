@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { LocalizedText } from '@/components/localized-text'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
+import { FloatingWhatsApp } from '@/components/floating-whatsapp'
 import { LanguageProvider } from '@/lib/i18n'
 import './globals.css'
 
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <SiteHeader />
           <main id="main">{children}</main>
           <SiteFooter />
+          <FloatingWhatsApp />
           {process.env.NODE_ENV === 'production' && <Analytics />}
         </LanguageProvider>
       </body>
