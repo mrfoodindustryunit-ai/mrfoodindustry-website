@@ -22,7 +22,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           fill
           priority={priority}
           sizes="(min-width: 1280px) 440px, (min-width: 768px) 50vw, 100vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          className="object-contain transition-transform duration-700 group-hover:scale-[1.04]"
         />
         <span
           aria-hidden="true"

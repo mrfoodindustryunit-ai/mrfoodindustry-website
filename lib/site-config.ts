@@ -14,7 +14,7 @@ export const siteConfig = {
     phone: '',
     /** International format without "+" or spaces, e.g. 919876543210 */
     whatsapp: '',
-    address: '',
+    address: 'M R FOOD INDUSTRY UNIT\n\nNo. 51, Ground Floor,\nKarnataka Rice Mill,\nMayasandra Road, Opp. T V S Showroom,\nTuruvekere, Tumakuru District,\nKarnataka - 572227, India.',
   },
   social: [] as { label: string; href: string }[],
 }

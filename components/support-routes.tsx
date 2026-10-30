@@ -13,9 +13,20 @@ const shapes = [
   'rounded-[110px_40px_40px_40px]',
 ]
 
+type SupportRoute = {
+  title: string
+  label: string
+  code: string
+  href: string
+  cta: string
+  text: string
+  points: string[]
+  featured?: boolean
+}
+
 export function SupportRoutes() {
   const { data } = useTranslation()
-  const supportRoutes = (data('supportRoutes.routes') as Array<any>) || []
+  const supportRoutes = (data('supportRoutes.routes') as SupportRoute[]) || []
 
   return (
     <ul className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">

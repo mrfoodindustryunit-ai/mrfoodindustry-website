@@ -66,7 +66,7 @@ export function SiteFooter() {
               {contact.address ? (
                 <div className="grid grid-cols-[7rem_1fr] gap-4">
                   <dt className="font-bold text-gold-soft">{t('footer.address')}</dt>
-                  <dd className="text-paper/70">{contact.address}</dd>
+                  <dd className="whitespace-pre-line text-paper/70">{contact.address}</dd>
                 </div>
               ) : null}
               {hasEmail ? (

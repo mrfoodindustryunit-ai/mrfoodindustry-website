@@ -62,7 +62,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                   fill
                   priority
                   sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover"
+                  className="object-contain"
                 />
                 <span aria-hidden="true" className="absolute -right-12 -top-12 size-44 rounded-full bg-gold-soft/35" />
               </div>

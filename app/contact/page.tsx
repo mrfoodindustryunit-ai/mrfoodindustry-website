@@ -48,7 +48,7 @@ export default function ContactPage() {
                           fallback={item.label}
                         />
                       </dt>
-                      <dd className="mt-1 text-lg">
+                      <dd className={`mt-1 text-lg ${item.label === 'Address' ? 'whitespace-pre-line' : ''}`}>
                         {'href' in item && item.href ? (
                           <a href={item.href} className="hover:text-gold-soft">
                             {item.value}
