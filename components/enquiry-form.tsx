@@ -307,9 +307,11 @@ export function EnquiryForm({ variant = 'general' }: { variant?: Variant }) {
         />,
       )}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="max-w-sm text-xs leading-relaxed text-muted-ink">
-          {t('common.note')}
-        </p>
+        {t('common.note') ? (
+          <p className="max-w-sm text-xs leading-relaxed text-muted-ink">
+            {t('common.note')}
+          </p>
+        ) : null}
         <button
           type="submit"
           disabled={isSubmitting}

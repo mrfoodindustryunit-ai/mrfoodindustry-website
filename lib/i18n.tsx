@@ -41,7 +41,7 @@ export const translations = {
       phone: 'Phone',
       whatsapp: 'WhatsApp',
       helpfulInclude: 'Helpful to include',
-      note: 'Your details are only used to prepare this enquiry. Nothing is stored on this website.',
+      note: '',
       copyEnquiry: 'Copy enquiry',
       copied: 'Copied',
       editDetails: 'Edit details',
