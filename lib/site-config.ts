@@ -10,7 +10,7 @@ export const siteConfig = {
   description:
     'Cattle feed for cows leads the MR Industries range, alongside feed for poultry, layer birds, goats and sheep.',
   contact: {
-    email: '',
+    email: 'enquiries@mrfoodindustryunit.com',
     phone: '+91 70220 32264',
     /** International format without "+" or spaces, e.g. 919876543210 */
     whatsapp: '917022032264',

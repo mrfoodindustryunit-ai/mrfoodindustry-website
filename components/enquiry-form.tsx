@@ -1,11 +1,11 @@
 'use client'
 
+import { useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
 import { ArrowUpRight, Check, Copy } from 'lucide-react'
 import { useTranslation, type TranslationKey } from '@/lib/i18n'
 import { products } from '@/lib/products'
-import { hasEmail, hasWhatsApp, siteConfig } from '@/lib/site-config'
+import { siteConfig } from '@/lib/site-config'
 import { cn } from '@/lib/utils'
 import { productCopyKey } from './product-copy'
 
@@ -19,6 +19,7 @@ const topics = [
 
 type Variant = 'general' | 'dealer'
 type Errors = Partial<Record<string, string>>
+type SubmitState = { type: 'success' | 'error'; message: string }
 
 const fieldClass =
   'mt-2 w-full rounded-2xl border border-line bg-paper px-5 py-3.5 text-[16px] text-ink placeholder:text-muted-ink/70 focus:border-gold-deep focus:outline-none aria-[invalid=true]:border-red-700'
@@ -32,9 +33,13 @@ export function EnquiryForm({ variant = 'general' }: { variant?: Variant }) {
     variant === 'dealer' ? 'dealer' : topics.some((t) => t.id === topicParam) ? (topicParam as string) : 'general'
   const initialProduct = products.some((p) => p.slug === productParam) ? (productParam as string) : ''
 
+  const formRef = useRef<HTMLFormElement | null>(null)
+  const formDataRef = useRef<FormData | null>(null)
   const [errors, setErrors] = useState<Errors>({})
   const [summary, setSummary] = useState<string | null>(null)
+  const [submitState, setSubmitState] = useState<SubmitState | null>(null)
   const [copied, setCopied] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -66,6 +71,7 @@ export function EnquiryForm({ variant = 'general' }: { variant?: Variant }) {
       : locale === 'kn' && productKey
         ? t(productKey)
         : selectedProduct?.name
+
     const lines = [
       `${t('common.enquiryType')}: ${topicLabel} — ${siteConfig.name}`,
       `${t('common.fullName')}: ${value('name')}`,
@@ -77,44 +83,99 @@ export function EnquiryForm({ variant = 'general' }: { variant?: Variant }) {
       '',
       value('message'),
     ].filter((line) => line !== null)
+
+    formDataRef.current = data
     setSummary(lines.join('\n'))
+    setSubmitState(null)
     setCopied(false)
   }
 
+  const handleSendEnquiry = async () => {
+    const payload = formDataRef.current
+    if (!payload) return
+
+    setIsSubmitting(true)
+    setSubmitState(null)
+
+    try {
+      const response = await fetch('/api/enquiry', {
+        method: 'POST',
+        body: payload,
+      })
+
+      const result = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        const errorMessage = typeof result?.error === 'string' ? result.error : 'We could not send your enquiry right now. Please try again later.'
+        throw new Error(errorMessage)
+      }
+
+      setSummary(null)
+      setErrors({})
+      formRef.current?.reset()
+      setSubmitState({
+        type: 'success',
+        message: 'Thank you. Your enquiry has been sent successfully. Our team will contact you soon.',
+      })
+    } catch (error) {
+      setSubmitState({
+        type: 'error',
+        message: error instanceof Error ? error.message : 'We could not send your enquiry right now. Please try again later.',
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  if (submitState?.type === 'success') {
+    return (
+      <div className="rounded-[32px_32px_96px_32px] bg-ink p-8 text-paper sm:p-12" role="status">
+        <span className="grid size-14 place-items-center rounded-full bg-gold text-ink">
+          <Check aria-hidden="true" className="size-6" />
+        </span>
+        <h3 className="headline mt-8 text-4xl sm:text-5xl">Thank you</h3>
+        <p className="mt-4 max-w-lg text-paper/75">{submitState.message}</p>
+        <button
+          type="button"
+          onClick={() => {
+            setSubmitState(null)
+            setSummary(null)
+            setErrors({})
+            formRef.current?.reset()
+          }}
+          className="eyebrow mt-8 inline-flex min-h-12 items-center gap-2 rounded-full border border-paper/30 px-6 font-bold text-paper hover:bg-paper/10"
+        >
+          Send another enquiry
+        </button>
+      </div>
+    )
+  }
+
   if (summary) {
-    const subject = encodeURIComponent(summary.split('\n')[0])
-    const body = encodeURIComponent(summary)
     return (
       <div className="rounded-[32px_32px_96px_32px] bg-ink p-8 text-paper sm:p-12" role="status">
         <span className="grid size-14 place-items-center rounded-full bg-gold text-ink">
           <Check aria-hidden="true" className="size-6" />
         </span>
         <h3 className="headline mt-8 text-4xl sm:text-5xl">{t('contact.ready')}</h3>
-        <p className="mt-4 max-w-lg text-paper/75">
-          {hasEmail || hasWhatsApp ? t('contact.readyText') : t('contact.readyFallback')}
-        </p>
+        <p className="mt-4 max-w-lg text-paper/75">{t('contact.readyText')}</p>
+        {submitState?.type === 'error' ? (
+          <p className="mt-4 rounded-2xl border border-red-400/50 bg-red-500/10 p-3 text-sm text-red-100">
+            {submitState.message}
+          </p>
+        ) : null}
         <pre className="mt-8 max-h-64 overflow-auto whitespace-pre-wrap rounded-2xl bg-paper/[0.07] p-5 font-sans text-sm leading-relaxed text-paper/85">
           {summary}
         </pre>
         <div className="mt-8 flex flex-wrap gap-3">
-          {hasEmail ? (
-            <a
-              href={`mailto:${siteConfig.contact.email}?subject=${subject}&body=${body}`}
-              className="eyebrow inline-flex min-h-12 items-center gap-2 rounded-full bg-gold px-6 font-bold text-ink"
-            >
-              {t('footer.email')} <ArrowUpRight aria-hidden="true" className="size-4" />
-            </a>
-          ) : null}
-          {hasWhatsApp ? (
-            <a
-              href={`https://wa.me/${siteConfig.contact.whatsapp}?text=${body}`}
-              target="_blank"
-              rel="noreferrer"
-              className="eyebrow inline-flex min-h-12 items-center gap-2 rounded-full bg-paper-light px-6 font-bold text-ink"
-            >
-              {t('footer.whatsapp')} <ArrowUpRight aria-hidden="true" className="size-4" />
-            </a>
-          ) : null}
+          <button
+            type="button"
+            onClick={handleSendEnquiry}
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
+            className="eyebrow inline-flex min-h-12 items-center gap-2 rounded-full bg-gold px-6 font-bold text-ink disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isSubmitting ? 'Sending...' : 'Send enquiry'} <ArrowUpRight aria-hidden="true" className="size-4" />
+          </button>
           <button
             type="button"
             onClick={async () => {
@@ -128,7 +189,10 @@ export function EnquiryForm({ variant = 'general' }: { variant?: Variant }) {
           </button>
           <button
             type="button"
-            onClick={() => setSummary(null)}
+            onClick={() => {
+              setSummary(null)
+              setSubmitState(null)
+            }}
             className="eyebrow inline-flex min-h-12 items-center px-4 font-bold text-paper/70 underline-offset-4 hover:underline"
           >
             {t('common.editDetails')}
@@ -163,6 +227,7 @@ export function EnquiryForm({ variant = 'general' }: { variant?: Variant }) {
 
   return (
     <form
+      ref={formRef}
       noValidate
       onSubmit={handleSubmit}
       className="grid gap-6 rounded-[32px_32px_96px_32px] border border-paper-light bg-paper-light p-6 shadow-[0_40px_80px_-50px_rgb(16_44_35/0.55)] sm:p-10"
@@ -247,7 +312,8 @@ export function EnquiryForm({ variant = 'general' }: { variant?: Variant }) {
         </p>
         <button
           type="submit"
-          className="group inline-flex min-h-[56px] items-center gap-5 rounded-[2px_36px_36px_2px] border border-gold/60 bg-gradient-to-r from-forest to-forest-bright py-1.5 pl-6 pr-1.5 text-xs font-bold uppercase tracking-[0.14em] text-paper-light"
+          disabled={isSubmitting}
+          className="group inline-flex min-h-[56px] items-center gap-5 rounded-[2px_36px_36px_2px] border border-gold/60 bg-gradient-to-r from-forest to-forest-bright py-1.5 pl-6 pr-1.5 text-xs font-bold uppercase tracking-[0.14em] text-paper-light disabled:cursor-not-allowed disabled:opacity-70"
         >
           {t('common.prepareEnquiry')}
           <span className="grid size-11 place-items-center rounded-full bg-gold text-ink transition-transform duration-300 group-hover:rotate-45">
@@ -255,6 +321,7 @@ export function EnquiryForm({ variant = 'general' }: { variant?: Variant }) {
           </span>
         </button>
       </div>
+      <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
     </form>
   )
 }
